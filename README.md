@@ -18,8 +18,8 @@ pkgs.callPackage
     {
       owner = "rehno-lindeque";
       repo = "ratelimit-pipe";
-      rev = "0000000000000000000000000000000000000000";
-      sha256 = "0000000000000000000000000000000000000000000000000000";
+      rev = "c9a61932a31a6ebeba3269b2c5ae4c1fb7202a05";
+      sha256 = "16xr6zx0hv502d4a3mx4903l8zvmsn71krsizqbb0m5k83r9h9ac";
     }
   )
   {};
