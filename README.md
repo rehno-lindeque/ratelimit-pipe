@@ -46,7 +46,7 @@ done
 Or, alternatively, using [inotify-tools](https://github.com/rvoicilas/inotify-tools/wiki):
 
 ```sh
-inotifywait -qrm --event close_write . | grep --line-buffered '.html$' | ratelimit --frequency 0.5 | while read l ; do browser-reload Firefox ; done
+inotifywait -qrm --event close_write . | grep --line-buffered '\.html$' | ratelimit --frequency 0.5 | while read l ; do browser-reload Firefox ; done
 ```
 
 ## Automatically reload your Haskell REPL
@@ -55,10 +55,9 @@ inotifywait -qrm --event close_write . | grep --line-buffered '.html$' | ratelim
 The same trick can be used to reload your repl
 
 ```sh
-{ inotifywait -qrm --event close_write . | grep --line-buffered '.hs$' | ratelimit --frequency 0.5 | sed -ue 's/.*/:reload/g' & cat -; } | gchi
+{ inotifywait -qrm --event close_write . | grep --line-buffered '\.hs$' | ratelimit --frequency 0.5 | sed -ue 's/.*/:reload/g' & cat -; } | ghci
 ```
 
-It is `.hs` (Haskell source) files in the current directory for changes using
 
 # Contributing
 
