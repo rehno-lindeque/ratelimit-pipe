@@ -49,6 +49,9 @@ Or, alternatively, using [inotify-tools](https://github.com/rvoicilas/inotify-to
 inotifywait -qrm --event close_write . | grep --line-buffered '\.html$' | ratelimit --frequency 0.5 | while read l ; do browser-reload Firefox ; done
 ```
 
+Here we filter on notifications for files matching the `.html` extension. Another common pattern to filter on might be `grep --line-buffered \(\.js$\|\.html$\|\.css$\)`.
+If you'd like to handle each of these file exensions differently, put your `while read l` loop in a bash function with a case statement.
+
 ## Automatically reload your Haskell REPL
 
 
