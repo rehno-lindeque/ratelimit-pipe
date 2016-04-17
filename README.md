@@ -55,12 +55,17 @@ If you'd like to handle each of these file exensions differently, put your `whil
 ## Automatically reload your Haskell REPL
 
 
-The same trick can be used to reload your repl
+The same trick can be used to reload your repl, combining your standard input (using `cat -`) with the `inotifywait` pipeline.
 
 ```sh
 { inotifywait -qrm --event close_write . | grep --line-buffered '\.hs$' | ratelimit --frequency 0.5 | sed -ue 's/.*/:reload/g' & cat -; } | ghci
 ```
 
+However, since we are forking inotifywait as a child process it won't be killed automatically, so you probably will want to trap the exit / interrupt / terminate signal.
+
+```sh
+{ trap 'kill $(jobs -pr)' SIGINT SIGTERM EXIT; inotifywait -qrm --event close_write . | grep --line-buffered '\.hs$' | ratelimit --frequency 0.5 | sed -ue 's/.*/:reload/g' & cat -; } | ghci
+```
 
 # Contributing
 
