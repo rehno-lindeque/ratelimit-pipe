@@ -67,6 +67,12 @@ However, since we are forking inotifywait as a child process it won't be killed 
 { trap 'kill $(jobs -pr)' SIGINT SIGTERM EXIT; inotifywait -qrm --event close_write . | grep --line-buffered '\.hs$' | ratelimit --frequency 0.5 | sed -ue 's/.*/:reload/g' & cat -; } | ghci
 ```
 
+Finally, if you are already using GHC 8, you may want to add the `-freverse-errors` flags to avoid the need to scroll up past a cascade of error messages.
+
+```sh
+{ trap 'kill $(jobs -pr)' SIGINT SIGTERM EXIT; inotifywait -qrm --event close_write . | grep --line-buffered '\.hs$' | ratelimit --frequency 0.5 | sed -ue 's/.*/:reload/g' & cat -; } | ghci -freverse-errors
+```
+
 # Contributing
 
 I'm unlikely to add any new features to this utility, but please feel free to let me know if you would like to take over maintenance on this program.
