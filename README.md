@@ -67,10 +67,16 @@ However, since we are forking inotifywait as a child process it won't be killed 
 { trap 'kill $(jobs -pr)' SIGINT SIGTERM EXIT; inotifywait -qrm --event close_write . | grep --line-buffered '\.hs$' | ratelimit --frequency 0.5 | sed -ue 's/.*/:reload/g' & cat -; } | ghci
 ```
 
+Unfortunately the readline is broken by arrow keys etc when piping into ghci... but we can wrap it with our own:
+
+```sh
+{ trap 'kill $(jobs -pr)' SIGINT SIGTERM EXIT; inotifywait -qrm --event close_write . | grep --line-buffered '\.hs$' | ratelimit --frequency 0.5 | sed -ue 's/.*/:reload/g' & rlwrap -pWHITE -S "λ " -m cat -; } | ghci
+```
+
 Finally, if you are already using GHC 8, you may want to add the `-freverse-errors` flags to avoid the need to scroll up past a cascade of error messages.
 
 ```sh
-{ trap 'kill $(jobs -pr)' SIGINT SIGTERM EXIT; inotifywait -qrm --event close_write . | grep --line-buffered '\.hs$' | ratelimit --frequency 0.5 | sed -ue 's/.*/:reload/g' & cat -; } | ghci -freverse-errors
+{ trap 'kill $(jobs -pr)' SIGINT SIGTERM EXIT; inotifywait -qrm --event close_write . | grep --line-buffered '\.hs$' | ratelimit --frequency 0.5 | sed -ue 's/.*/:reload/g' & rlwrap -pWHITE -S "λ " -m cat -; } | ghci -freverse-errors
 ```
 
 # Contributing
