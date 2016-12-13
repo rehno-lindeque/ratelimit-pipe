@@ -96,7 +96,7 @@ int main(int argc, const char **argv){
     time(&now);
     if (difftime(now, last) >= interval) {
 #endif
-      printf(buffer);
+      puts(buffer);
       last = now;
     }
   }
