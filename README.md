@@ -39,14 +39,14 @@ Here is a less contrived example using [entr](http://entrproject.org/) and [relo
 
 ```sh
 while true; do
-find -name '*.html' | entr -d echo /_ | ratelimit --frequency 0.5 | while read l ; do browser-reload Firefox ; done
+find -name '*.html' | entr -d echo /_ | ratelimit --frequency 0.5 | while read l ; do reload-browser Firefox ; done
 done
 ```
 
 Or, alternatively, using [inotify-tools](https://github.com/rvoicilas/inotify-tools/wiki):
 
 ```sh
-inotifywait -qrm --event close_write . | grep --line-buffered '\.html$' | ratelimit --frequency 0.5 | while read l ; do browser-reload Firefox ; done
+inotifywait -qrm --event close_write . | grep --line-buffered '\.html$' | ratelimit --frequency 0.5 | while read l ; do reload-browser Firefox ; done
 ```
 
 Here we filter on notifications for files matching the `.html` extension. Another common pattern to filter on might be `grep --line-buffered \(\.js$\|\.html$\|\.css$\)`.
